@@ -28,7 +28,7 @@ const index = async (req, res) => {
 const show = async (req, res) => {
     try {
         const auth = req.headers.authorization;
-        const token = auth?.split(' ')[1];
+        const token = auth.split(' ')[1];
         jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
     }
     catch (e) {
@@ -37,7 +37,8 @@ const show = async (req, res) => {
         return;
     }
     try {
-        const product = await store.show(req.params.product_id);
+        console.log(req.body.product_id);
+        const product = await store.show(req.body.product_id);
         res.json(product);
     }
     catch (err) {
@@ -70,7 +71,7 @@ const create = async (req, res) => {
 };
 const productsRoutes = async (app) => {
     app.get('/products', index);
-    app.get('/products/:product_id', show);
+    app.get('/product/:product_id', show);
     app.post('/products/', create);
 };
 exports.default = productsRoutes;

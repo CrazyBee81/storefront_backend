@@ -26,7 +26,7 @@ const index = async (req: Request, res: Response): Promise<void> => {
 const show = async (req: Request, res: Response): Promise<void> => {
     try {
         const auth: string = req.headers.authorization as string;
-        const token: string = auth?.split(' ')[1];
+        const token: string = auth.split(' ')[1];
 
         jwt.verify(token, process.env.TOKEN_SECRET as Secret)
     } catch (e) {
@@ -35,7 +35,8 @@ const show = async (req: Request, res: Response): Promise<void> => {
         return
     }
     try {
-        const product: Product = await store.show(req.params.product_id);
+        console.log(req.body.product_id)
+        const product: Product = await store.show(req.body.product_id);
         res.json(product);
     } catch (err) {
         res.json(`could not find product with id ${req.body.id}. Error: ${err}`);
@@ -69,7 +70,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
 const productsRoutes = async (app: express.Application) => {
     app.get('/products', index);
-    app.get('/products/:product_id', show);
+    app.get('/product/:product_id', show);
     app.post('/products/', create);
 }
 
