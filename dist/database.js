@@ -10,8 +10,7 @@ let Client;
 if (process.env.ENV === 'dev') {
     Client = new pg_1.Pool({
         host: process.env.POSTGRES_HOST,
-        //@ts-ignore
-        port: process.env.POSTGRES_PORT,
+        port: parseInt(process.env.POSTGRES_PORT),
         database: process.env.POSTGRES_DB,
         user: process.env.POSTGRES_USER,
         password: process.env.POSTGRES_PASSWORD
@@ -20,11 +19,11 @@ if (process.env.ENV === 'dev') {
 if (process.env.ENV === 'test') {
     Client = new pg_1.Pool({
         host: process.env.POSTGRES_HOST,
-        //@ts-ignore
-        port: process.env.POSTGRES_PORT,
+        port: parseInt(process.env.POSTGRES_PORT),
         database: process.env.POSTGRES_DB_TEST,
         user: process.env.POSTGRES_USER,
         password: process.env.POSTGRES_PASSWORD
     });
 }
+// @ts-ignore
 exports.default = Client;

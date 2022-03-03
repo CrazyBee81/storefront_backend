@@ -3,5 +3,5 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     firstName VARCHAR(60),
     lastName VARCHAR(60),
-    password_digest VARCHAR(100)
+    password VARCHAR(100)
 )

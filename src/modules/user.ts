@@ -1,33 +1,30 @@
-// @ts-ignore
+
 import Client from '../database';
 import bcrypt from 'bcrypt';
 
 export type User = {
-    id: Number,
-    firstName: String,
-    lastName: String,
-    password_digest: String
+    firstName: string,
+    lastName: string,
+    password: string
 }
 
 export class UserStore {
     async create(u: User): Promise<User> {
         try {
-            // @ts-ignore
             const conn = await Client.connect();
-            const sql = 'INSERT INTO users (firstName,lastName,password_digest) VALUES($1, $2) RETURNING *'
+            const sql = 'INSERT INTO users (firstName,lastName,password) VALUES($1, $2, $3) RETURNING *'
 
             // hashing password
-            const pepper: String = process.env.BCRYPT_PASSWORD as string
+            const pepper: string = process.env.BCRYPT_PASSWORD as string
             const saltRounds: string = process.env.SALT_ROUNDS as string
 
             const hash = bcrypt.hashSync(
-                // @ts-ignore
                 u.password + pepper,
                 parseInt(saltRounds)
             );
 
             const result = await conn.query(sql, [u.firstName, u.lastName, hash]);
-            const user = result.rows[0]
+            const user: User = result.rows[0]
 
             conn.release()
 
@@ -40,7 +37,6 @@ export class UserStore {
 
     async index(): Promise<User[]> {
         try {
-            // @ts-ignore
             const conn = await Client.connect();
             const sql = 'SELECT * FROM users'
             const result = await conn.query(sql);
@@ -53,15 +49,14 @@ export class UserStore {
         }
     }
 
-    async show(id: String): Promise<User> {
+    async show(id: string): Promise<User> {
         try {
-            // @ts-ignore
             const conn = await Client.connect();
             const sql = `SELECT *
                          FROM users
                          WHERE id = ($1)`
-            const result = await conn.query(sql, id);
-            const user = result.rows[0]
+            const result = await conn.query(sql, [id]);
+            const user: User = result.rows[0]
 
 
             conn.release()

@@ -4,21 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserStore = void 0;
-// @ts-ignore
 const database_1 = __importDefault(require("../database"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 class UserStore {
     async create(u) {
         try {
-            // @ts-ignore
             const conn = await database_1.default.connect();
-            const sql = 'INSERT INTO users (firstName,lastName,password_digest) VALUES($1, $2) RETURNING *';
+            const sql = 'INSERT INTO users (firstName,lastName,password) VALUES($1, $2, $3) RETURNING *';
             // hashing password
             const pepper = process.env.BCRYPT_PASSWORD;
             const saltRounds = process.env.SALT_ROUNDS;
-            const hash = bcrypt_1.default.hashSync(
-            // @ts-ignore
-            u.password + pepper, parseInt(saltRounds));
+            const hash = bcrypt_1.default.hashSync(u.password + pepper, parseInt(saltRounds));
             const result = await conn.query(sql, [u.firstName, u.lastName, hash]);
             const user = result.rows[0];
             conn.release();
@@ -30,7 +26,6 @@ class UserStore {
     }
     async index() {
         try {
-            // @ts-ignore
             const conn = await database_1.default.connect();
             const sql = 'SELECT * FROM users';
             const result = await conn.query(sql);
@@ -44,12 +39,11 @@ class UserStore {
     }
     async show(id) {
         try {
-            // @ts-ignore
             const conn = await database_1.default.connect();
             const sql = `SELECT *
                          FROM users
                          WHERE id = ($1)`;
-            const result = await conn.query(sql, id);
+            const result = await conn.query(sql, [id]);
             const user = result.rows[0];
             conn.release();
             return user;
