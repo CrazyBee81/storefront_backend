@@ -42,5 +42,14 @@ export class DashboardStore {
 
         return orders
     }
+    async productsByCategory(category:string): Promise<Order[]> {
+        const conn = await Client.connect();
+        const sql = 'SELECT category, name, price FROM products WHERE category=($1)';
+        const result = await conn.query(sql, [category]);
+        const orders = result.rows
 
+        conn.release()
+
+        return orders
+    }
 }

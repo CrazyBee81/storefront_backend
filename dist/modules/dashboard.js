@@ -38,5 +38,13 @@ class DashboardStore {
         conn.release();
         return orders;
     }
+    async productsByCategory(category) {
+        const conn = await database_1.default.connect();
+        const sql = 'SELECT category, name, price FROM products WHERE category=($1)';
+        const result = await conn.query(sql, [category]);
+        const orders = result.rows;
+        conn.release();
+        return orders;
+    }
 }
 exports.DashboardStore = DashboardStore;
