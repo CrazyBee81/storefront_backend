@@ -6,6 +6,16 @@ const store = new UserStore;
 
 const create = async (req: Request, res: Response): Promise<void> => {
     try {
+        const auth: string = req.headers.authorization as string;
+        const token: string = auth?.split(' ')[1];
+
+        jwt.verify(token, process.env.TOKEN_SECRET as Secret)
+    } catch (e) {
+        res.status(401)
+        res.json('Access denied, invalid token')
+        return
+    }
+    try {
         const user: User = {
             firstName: req.body.firstName,
             lastName:  req.body.lastName,

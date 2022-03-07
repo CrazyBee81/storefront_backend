@@ -4,7 +4,7 @@ import {Order} from "./order"
 export class DashboardStore {
     async ordersByUser(): Promise<Order[]> {
         const conn = await Client.connect();
-        const sql = 'SELECT * FROM orders INNER JOIN orders_products ON orders_products.order_id = orders.id';
+        const sql = 'SELECT firstname, lastname, users.id as user_id,  orders.id as order_id FROM users INNER JOIN orders on orders.user_id = users.id ORDER BY users.id;';
         const result = await conn.query(sql);
 
         conn.release()
@@ -12,14 +12,35 @@ export class DashboardStore {
         return result.rows
 
     }
-    async completedOrdersByUser(): Promise<Order[]> {
+    async showCurrent(user_id:string): Promise<Order> {
         const conn = await Client.connect();
-        const sql = 'SELECT * FROM orders INNER JOIN orders_products ON orders_products.order_id = orders.id WHERE status orders.status = completed';
-        const result = await conn.query(sql);
+        const sql = 'SELECT * FROM orders WHERE user_id=($1) ORDER BY id DESC';
+        const result = await conn.query(sql, [user_id]);
+        const order:Order = result.rows[0]
+        console.log(result.rows)
+        conn.release()
+
+        return order
+    }
+    async showCompleted(user_id:string): Promise<Order[]> {
+        const conn = await Client.connect();
+        const sql = 'SELECT * FROM orders WHERE user_id=($1) AND status=($2)';
+        const result = await conn.query(sql, [user_id, 'closed']);
+        const orders = result.rows
 
         conn.release()
 
-        return result.rows
-
+        return orders
     }
+    async fiveMostPopular(): Promise<Order[]> {
+        const conn = await Client.connect();
+        const sql = 'SELECT product_id, quantity, products.name FROM orders_products INNER JOIN products ON orders_products.product_id = products.id GROUP BY product_id, products.name, quantity ORDER BY quantity DESC LIMIT 5 ';
+        const result = await conn.query(sql);
+        const orders = result.rows
+
+        conn.release()
+
+        return orders
+    }
+
 }

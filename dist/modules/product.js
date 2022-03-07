@@ -6,6 +6,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductStore = void 0;
 const database_1 = __importDefault(require("../database"));
 class ProductStore {
+    async create(p) {
+        try {
+            const conn = await database_1.default.connect();
+            const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
+            const result = await conn.query(sql, [p.product_name, p.price, p.category]);
+            const product = result.rows[0];
+            console.log(product);
+            conn.release();
+            return product;
+        }
+        catch (err) {
+            throw new Error(`could not create product ${p.product_name}. Error: ${err}`);
+        }
+    }
     async index() {
         try {
             const conn = await database_1.default.connect();
@@ -30,20 +44,6 @@ class ProductStore {
         }
         catch (err) {
             throw new Error(`could not get product with id ${product_id}. Error: ${err}`);
-        }
-    }
-    async create(p) {
-        try {
-            const conn = await database_1.default.connect();
-            const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
-            const result = await conn.query(sql, [p.product_name, p.price, p.category]);
-            const product = result.rows[0];
-            console.log(product);
-            conn.release();
-            return product;
-        }
-        catch (err) {
-            throw new Error(`could not create product ${p.product_name}. Error: ${err}`);
         }
     }
 }

@@ -6,15 +6,6 @@ export type Order = {
 }
 
 export class OrderStore {
-    async index(): Promise<Order[]> {
-        const conn = await Client.connect();
-        const sql = 'SELECT * FROM orders';
-        const result = await conn.query(sql);
-
-        conn.release()
-
-        return result.rows
-    }
     async create(o:Order): Promise<Order> {
         const conn = await Client.connect();
         const sql = 'INSERT INTO orders (status, user_id) VALUES ($1,$2) RETURNING *'
@@ -25,15 +16,14 @@ export class OrderStore {
 
         return newOrder
     }
-    async show(order_id:string): Promise<Order> {
+    async index(): Promise<Order[]> {
         const conn = await Client.connect();
-        const sql = 'SELECT * FROM oders WHERE id=$(1)';
-        const result = await conn.query(sql, [order_id]);
-        const order:Order = result.rows[0]
+        const sql = 'SELECT * FROM orders';
+        const result = await conn.query(sql);
 
         conn.release()
 
-        return order
+        return result.rows
     }
     async delete(order_id:string): Promise<Order> {
         const conn = await Client.connect();
@@ -55,6 +45,4 @@ export class OrderStore {
 
         return newOrder
     }
-
-
 }

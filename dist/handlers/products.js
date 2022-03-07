@@ -8,15 +8,6 @@ const product_1 = require("../modules/product");
 const store = new product_1.ProductStore();
 const index = async (req, res) => {
     try {
-        const auth = req.headers.authorization;
-        const token = auth.split(' ')[1];
-        jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
-    }
-    catch (e) {
-        res.json('Access denied, invalid token');
-        return;
-    }
-    try {
         const products = await store.index();
         res.json(products);
     }
@@ -26,16 +17,6 @@ const index = async (req, res) => {
     }
 };
 const show = async (req, res) => {
-    try {
-        const auth = req.headers.authorization;
-        const token = auth.split(' ')[1];
-        jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
-    }
-    catch (e) {
-        res.status(401);
-        res.json('Access denied, invalid token');
-        return;
-    }
     try {
         console.log(req.body.product_id);
         const product = await store.show(req.body.product_id);

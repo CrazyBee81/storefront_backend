@@ -7,6 +7,21 @@ export type Product = {
 }
 
 export class ProductStore {
+    async create (p: Product):Promise<Product> {
+        try {
+            const conn = await Client.connect();
+            const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
+            const result = await conn.query(sql, [p.product_name, p.price, p.category]);
+            const product:Product = result.rows[0]
+            console.log(product)
+
+            conn.release()
+
+            return product
+        } catch (err) {
+            throw new Error(`could not create product ${p.product_name}. Error: ${err}`)
+        }
+    }
     async index ():Promise<Product[]> {
         try {
             const conn = await Client.connect();
@@ -35,21 +50,7 @@ export class ProductStore {
             throw new Error(`could not get product with id ${product_id}. Error: ${err}`)
         }
     }
-    async create (p: Product):Promise<Product> {
-        try {
-            const conn = await Client.connect();
-            const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
-            const result = await conn.query(sql, [p.product_name, p.price, p.category]);
-            const product:Product = result.rows[0]
-            console.log(product)
 
-            conn.release()
-
-            return product
-        } catch (err) {
-            throw new Error(`could not create product ${p.product_name}. Error: ${err}`)
-        }
-    }
 }
 
 

@@ -7,12 +7,13 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const order_1 = require("../modules/order");
 const store = new order_1.OrderStore();
 const index = async (_req, res) => {
-    const orders = await store.index();
-    res.json(orders);
-};
-const show = async (req, res) => {
-    const order = await store.show(req.body.id);
-    res.json(order);
+    try {
+        const orders = await store.index();
+        res.json(orders);
+    }
+    catch (err) {
+        res.json(`could not get orders. Error: ${err}`);
+    }
 };
 const create = async (req, res) => {
     try {
@@ -26,12 +27,10 @@ const create = async (req, res) => {
         return;
     }
     try {
-        console.log('order create');
         const order = {
             status: req.body.status,
             user_id: req.params.userID
         };
-        console.log([order.status, order.user_id]);
         const newOrder = await store.create(order);
         res.json(newOrder);
     }
@@ -88,7 +87,6 @@ const destroy = async (req, res) => {
 };
 const orderRoutes = (app) => {
     app.get('/orders', index);
-    app.get('/orders/:id', show);
     app.post('/user/:userID/orders', create);
     app.post('/order/:id/products', addProducts);
     app.delete('/orders', destroy);

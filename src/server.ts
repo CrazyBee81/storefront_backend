@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import userRoutes from "./handlers/users";
 import productsRoutes from './handlers/products'
 import orderRoutes from "./handlers/orders";
+import dashboardRoutes from "./handlers/dashboard";
 
 const app: express.Application = express()
 const address = "0.0.0.0:3000"
@@ -21,3 +22,4 @@ app.listen(3000, function () {
 userRoutes(app);
 productsRoutes(app);
 orderRoutes(app);
+dashboardRoutes(app);

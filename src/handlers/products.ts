@@ -6,15 +6,6 @@ const store = new ProductStore();
 
 const index = async (req: Request, res: Response): Promise<void> => {
     try {
-        const auth: string = req.headers.authorization as string;
-        const token: string = auth.split(' ')[1];
-        jwt.verify(token, process.env.TOKEN_SECRET as Secret);
-
-    } catch (e) {
-        res.json('Access denied, invalid token');
-        return
-    }
-    try {
         const products = await store.index()
         res.json(products);
     } catch (err) {
@@ -24,16 +15,6 @@ const index = async (req: Request, res: Response): Promise<void> => {
 }
 
 const show = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const auth: string = req.headers.authorization as string;
-        const token: string = auth.split(' ')[1];
-
-        jwt.verify(token, process.env.TOKEN_SECRET as Secret)
-    } catch (e) {
-        res.status(401)
-        res.json('Access denied, invalid token')
-        return
-    }
     try {
         console.log(req.body.product_id)
         const product: Product = await store.show(req.body.product_id);

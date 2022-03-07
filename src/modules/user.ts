@@ -34,7 +34,6 @@ export class UserStore {
             throw new Error(`could not create user ${u.firstName} ${u.lastName}. Error: ${err}`);
         }
     }
-
     async index(): Promise<User[]> {
         try {
             const conn = await Client.connect();
@@ -48,7 +47,6 @@ export class UserStore {
             throw Error('could not get users')
         }
     }
-
     async show(id: string): Promise<User> {
         try {
             const conn = await Client.connect();

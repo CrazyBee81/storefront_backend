@@ -5,13 +5,12 @@ import {Order,OrderStore} from "../modules/order";
 const store = new OrderStore()
 
 const index = async (_req: Request, res: Response): Promise<void> => {
-    const orders = await store.index()
-    res.json(orders)
-}
-
-const show = async (req: Request, res: Response): Promise<void> => {
-    const order: Order = await store.show(req.body.id)
-    res.json(order)
+    try{
+        const orders = await store.index()
+        res.json(orders)
+    } catch (err) {
+        res.json(`could not get orders. Error: ${err}`);
+    }
 }
 
 const create = async (req: Request, res: Response): Promise<void> => {
@@ -28,13 +27,11 @@ const create = async (req: Request, res: Response): Promise<void> => {
     }
 
     try {
-        console.log('order create')
         const order: Order = {
             status: req.body.status as string,
             user_id: req.params.userID
         }
-        console.log([order.status, order.user_id])
-        const newOrder = await store.create(order)
+        const newOrder: Order = await store.create(order)
         res.json(newOrder)
     } catch (err) {
         res.status(400)
@@ -93,7 +90,6 @@ const destroy = async (req: Request, res: Response) => {
 
 const orderRoutes = (app: express.Application) => {
     app.get('/orders', index)
-    app.get('/orders/:id', show)
     app.post('/user/:userID/orders', create)
     app.post('/order/:id/products', addProducts)
     app.delete('/orders', destroy)
