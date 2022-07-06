@@ -36,7 +36,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
     }
     try {
         const product: Product = {
-            product_name: req.body.product_name,
+            name: req.body.product_name,
             price:  req.body.price,
             category: req.body.category,
         }

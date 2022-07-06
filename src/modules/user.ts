@@ -3,8 +3,8 @@ import Client from '../database';
 import bcrypt from 'bcrypt';
 
 export type User = {
-    firstName: string,
-    lastName: string,
+    firstname: string,
+    lastname: string,
     password: string
 }
 
@@ -12,7 +12,7 @@ export class UserStore {
     async create(u: User): Promise<User> {
         try {
             const conn = await Client.connect();
-            const sql = 'INSERT INTO users (firstName,lastName,password) VALUES($1, $2, $3) RETURNING *'
+            const sql = 'INSERT INTO users (firstname,lastname,password) VALUES($1, $2, $3) RETURNING *'
 
             // hashing password
             const pepper: string = process.env.BCRYPT_PASSWORD as string
@@ -23,15 +23,16 @@ export class UserStore {
                 parseInt(saltRounds)
             );
 
-            const result = await conn.query(sql, [u.firstName, u.lastName, hash]);
+            const result = await conn.query(sql, [u.firstname, u.lastname, hash]);
             const user: User = result.rows[0]
+            console.log(user)
 
             conn.release()
 
             return user
 
         } catch (err) {
-            throw new Error(`could not create user ${u.firstName} ${u.lastName}. Error: ${err}`);
+            throw new Error(`could not create user ${u.firstname} ${u.lastname}. Error: ${err}`);
         }
     }
     async index(): Promise<User[]> {
