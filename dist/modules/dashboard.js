@@ -18,7 +18,7 @@ class DashboardStore {
         const sql = 'SELECT * FROM orders WHERE user_id=($1) ORDER BY id DESC';
         const result = await conn.query(sql, [user_id]);
         const order = result.rows[0];
-        console.log(result.rows);
+        result.rows;
         conn.release();
         return order;
     }
@@ -32,7 +32,7 @@ class DashboardStore {
     }
     async fiveMostPopular() {
         const conn = await database_1.default.connect();
-        const sql = 'SELECT product_id, quantity, products.name FROM orders_products INNER JOIN products ON orders_products.product_id = products.id GROUP BY product_id, products.name, quantity ORDER BY quantity DESC LIMIT 5 ';
+        const sql = 'SELECT SUM (quantity), product_id FROM orders_products INNER JOIN products ON orders_products.product_id = products.id GROUP BY product_id ORDER BY SUM (quantity) DESC LIMIT 5 ';
         const result = await conn.query(sql);
         const orders = result.rows;
         conn.release();
