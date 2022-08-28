@@ -4,7 +4,7 @@
   "description": "## Getting Started",
   "main": "server.ts",
   "scripts": {
-    "start": "node src/server.ts",
+    "start": "node ./dist/server.js",
     "watch": "tsc-watch --onSuccess \"node ./dist/server.js\"",
     "test": "ENV=test db-migrate --env test up && jasmine-ts && db-migrate db:drop test",
     "lint": "eslint 'src/**/*.ts'",
@@ -38,6 +38,7 @@
     "jasmine-spec-reporter": "^6.0.0",
     "jasmine-ts": "^0.3.0",
     "npm": "^8.5.2",
+    "prettier": "^2.7.1",
     "ts-node": "^9.1.1",
     "tsc-watch": "^4.2.9"
   },
