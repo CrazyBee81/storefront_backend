@@ -25,20 +25,10 @@ describe("User Model", () => {
             password: result.password
         });
     });
-    it('index method should return a list of users', async () => {
-        const result = await store.index();
-        expect(result).toEqual([{
-                id: result.id,
-                firstname: "Volodymyr",
-                lastname: 'Zelenskyy',
-                //@ts-ignore
-                password: result.password
-            }]);
-    });
     it('show method should return the correct user', async () => {
         const result = await store.show("1");
         expect(result).toEqual({
-            id: result.id,
+            id: 1,
             firstname: "Volodymyr",
             lastname: 'Zelenskyy',
             password: result.password

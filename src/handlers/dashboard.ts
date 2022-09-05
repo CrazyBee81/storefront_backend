@@ -80,7 +80,7 @@ const dashboardRoutes = (app: express.Application) => {
     app.get('/user/:userID/orders', showCurrent)
     app.get('/user/:userID/orders_completed', showCompleted)
     app.get('/dashboard/five_most_popular', fiveMostPopular)
-    app.get('/categories/:category', productsByCategory)
+    app.get('/categories/:category/products_by_category', productsByCategory)
 }
 
 export default dashboardRoutes

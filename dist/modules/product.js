@@ -12,7 +12,6 @@ class ProductStore {
             const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
             const result = await conn.query(sql, [p.name, p.price, p.category]);
             const product = result.rows[0];
-            console.log(product);
             conn.release();
             return product;
         }

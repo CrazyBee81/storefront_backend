@@ -28,13 +28,13 @@ describe("Product Model", () => {
     });
     it('index method should return a list of product', async () => {
         const result = await store.index();
-        expect(result).toEqual([{
-                id: result[0].id,
-                name: 'Nivea',
-                //@ts-ignore
-                price: 4,
-                category: 'cream'
-            }]);
+        expect(result).toContain({
+            id: result[0].id,
+            name: 'Nivea',
+            //@ts-ignore
+            price: 4,
+            category: 'cream'
+        });
     });
     it('show method should return the correct product', async () => {
         const result = await store.show("1");

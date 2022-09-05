@@ -17,7 +17,6 @@ class UserStore {
             const hash = bcrypt_1.default.hashSync(u.password + pepper, parseInt(saltRounds));
             const result = await conn.query(sql, [u.firstname, u.lastname, hash]);
             const user = result.rows[0];
-            console.log(user);
             conn.release();
             return user;
         }

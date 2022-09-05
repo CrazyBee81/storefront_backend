@@ -25,7 +25,6 @@ export class UserStore {
 
             const result = await conn.query(sql, [u.firstname, u.lastname, hash]);
             const user: User = result.rows[0]
-            console.log(user)
 
             conn.release()
 
