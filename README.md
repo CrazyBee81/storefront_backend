@@ -15,5 +15,9 @@ Since the project is using the dotenv library, a .env file is needed. Below is a
 POSTGRES_HOST=localhost <br>
 POSTGRES_PORT=5678 <br>
 POSTGRES_DB=storefront_backend <br>
+POSTGRES_DB_TEST=storefront_backend_test<br>
 POSTGRES_USER=storefront_admin <br>
-POSTGRES_PASSWORD=storefront_password <br>
+POSTGRES_PASSWORD=storefront_password<br>
+BCRYPT_PASSWORD=very_spicy_password<br>
+SALT_ROUNDS=10<br>
+TOKEN_SECRET=top-secret<br>
