@@ -8,16 +8,6 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const store = new user_1.UserStore;
 const create = async (req, res) => {
     try {
-        const auth = req.headers.authorization;
-        const token = auth?.split(' ')[1];
-        jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
-    }
-    catch (e) {
-        res.status(401);
-        res.json('Access denied, invalid token');
-        return;
-    }
-    try {
         const user = {
             firstname: req.body.firstName,
             lastname: req.body.lastName,
