@@ -20,12 +20,14 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Current Order by user (args: user id)[token required]  '/users/:userID/orders' [GET] done
 - [OPTIONAL] Completed Orders by user (args: user id)[token required] '/users/:userID/orders_completed' [GET] done
 
-## Data Shapes
+## Data Shapes and Database Scheme
 #### Product
 -  id (id SERIAL PRIMARY KEY )
 - name (VARCHAR(100))
 - price (INTEGER)
 - [OPTIONAL] category (VARCHAR(80))
+
+**referenced by**: TABLE "orders_products" CONSTRAINT "orders_products_product_id_fkey" FOREIGN KEY (product_id) REFERENCES products(id)
 
 #### User
 - id (SERIAL PRIMARY KEY)
@@ -33,10 +35,14 @@ These are the notes from a meeting with the frontend developer that describe wha
 - lastName (VARCHAR(60))
 - password (VARCHAR(100))
 
+**Referenced by**: TABLE "orders" CONSTRAINT "orders_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+
 #### Orders
 - id (SERIAL PRIMARY KEY)
 - user_id (bigint REFERENCES users (id))
-- status of order (VARCHAR(8)) 
+- status of order (VARCHAR(8))
+  
+**Referenced by**:TABLE "orders_products" CONSTRAINT "orders_products_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(id)
 
 #### Order Products 
 - id (SERIAL PRIMARY KEY)

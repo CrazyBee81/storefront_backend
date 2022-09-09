@@ -5,10 +5,11 @@ const order_1 = require("../order");
 const store = new dashboard_1.DashboardStore();
 const OrderStoreStore = new order_1.OrderStore();
 describe("Dashboard Model", () => {
-    OrderStoreStore.create({
+    var test = OrderStoreStore.create({
         user_id: '1',
         status: 'open'
     });
+    console.log(test);
     it('should have an showCurrend method', () => {
         expect(store.showCurrent).toBeDefined();
     });
