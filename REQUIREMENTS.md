@@ -22,24 +22,24 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## Data Shapes
 #### Product
--  id
-- name
-- price
-- [OPTIONAL] category
+-  id (id SERIAL PRIMARY KEY )
+- name (VARCHAR(100))
+- price (INTEGER)
+- [OPTIONAL] category (VARCHAR(80))
 
 #### User
-- id
-- firstName
-- lastName
-- password
+- id (SERIAL PRIMARY KEY)
+- firstName (VARCHAR(60))
+- lastName (VARCHAR(60))
+- password (VARCHAR(100))
 
 #### Orders
-- id
-- user_id
-- status of order (active or complete)
+- id (SERIAL PRIMARY KEY)
+- user_id (bigint REFERENCES users (id))
+- status of order (VARCHAR(8)) 
 
 #### Order Products 
-- id
-- id of the order
-- id of the product in the order
-- quantity of the product in the order
+- id (SERIAL PRIMARY KEY)
+- id of the order (bigint REFERENCES orders (id))
+- id of the product in the order (bigint REFERENCES products (id))
+- quantity of the product in the order (integer)
