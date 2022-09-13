@@ -29,7 +29,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 **referenced by**: TABLE "orders_products" CONSTRAINT "orders_products_product_id_fkey" FOREIGN KEY (product_id) REFERENCES products(id)
 
-#### User
+#### tabel_name: users
 - id (SERIAL PRIMARY KEY)
 - firstName (VARCHAR(60))
 - lastName (VARCHAR(60))
@@ -37,14 +37,14 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 **Referenced by**: TABLE "orders" CONSTRAINT "orders_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
 
-#### Orders
+#### tabel_name: orders
 - id (SERIAL PRIMARY KEY)
 - user_id (bigint REFERENCES users (id))
 - status of order (VARCHAR(8))
   
 **Referenced by**:TABLE "orders_products" CONSTRAINT "orders_products_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(id)
 
-#### Order Products 
+#### tabel_name: order Products 
 - id (SERIAL PRIMARY KEY)
 - id of the order (bigint REFERENCES orders (id))
 - id of the product in the order (bigint REFERENCES products (id))
