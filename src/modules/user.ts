@@ -5,14 +5,20 @@ import bcrypt from 'bcrypt';
 export type User = {
     firstname: string,
     lastname: string,
-    password: string
+    password: string,
+    mail: string,
+    address: string,
+    city: string,
+    zipCode: number,
+    state: string,
+    creditcard: number
 }
 
 export class UserStore {
     async create(u: User): Promise<User> {
         try {
             const conn = await Client.connect();
-            const sql = 'INSERT INTO users (firstname,lastname,password) VALUES($1, $2, $3) RETURNING *'
+            const sql = 'INSERT INTO users (firstname,lastname,password, mail, address,city, zipCode, state, creditcard) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *'
 
             // hashing password
             const pepper: string = process.env.BCRYPT_PASSWORD as string
@@ -23,7 +29,7 @@ export class UserStore {
                 parseInt(saltRounds)
             );
 
-            const result = await conn.query(sql, [u.firstname, u.lastname, hash]);
+            const result = await conn.query(sql, [u.firstname, u.lastname, hash, u.mail, u.address, u.city, u.zipCode, u.state, u.creditcard]);
             const user: User = result.rows[0]
 
             conn.release()

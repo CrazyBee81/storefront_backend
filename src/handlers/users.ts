@@ -9,7 +9,13 @@ const create = async (req: Request, res: Response): Promise<void> => {
         const user: User = {
             firstname: req.body.firstName,
             lastname:  req.body.lastName,
-            password: req.body.password,
+            mail: req.body.mail,
+            password:  req.body.password,
+            address: req.body.address,
+            city: req.body.city,
+            zipCode: req.body.zipCode,
+            state: req.body.state,
+            creditcard: req.body.creditcard,
         }
 
         const newUser: User = await store.create(user);
