@@ -16,7 +16,13 @@ describe("User Model", () => {
         const result = await store.create({
             firstname: 'Volodymyr',
             lastname: 'Zelenskyy',
-            password: 'freedom'
+            password: 'freedom',
+            mail: 'president@ukrain.uk',
+            address: 'main street 123',
+            city: 'Kiew',
+            zipCode: 12345,
+            state: 'ukrain',
+            creditcard: 1234567891
         });
         expect(result).toEqual({
             id: result.id,

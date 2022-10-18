@@ -35,7 +35,7 @@ if (ENV === 'dev') {
     })
 }
 
-
+console.log(ENV)
 
 // @ts-ignore
 export default Client

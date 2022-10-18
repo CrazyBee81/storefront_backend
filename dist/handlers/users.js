@@ -11,7 +11,13 @@ const create = async (req, res) => {
         const user = {
             firstname: req.body.firstName,
             lastname: req.body.lastName,
+            mail: req.body.mail,
             password: req.body.password,
+            address: req.body.address,
+            city: req.body.city,
+            zipCode: req.body.zipCode,
+            state: req.body.state,
+            creditcard: req.body.creditcard,
         };
         const newUser = await store.create(user);
         const token = jsonwebtoken_1.default.sign(newUser, process.env.TOKEN_SECRET);

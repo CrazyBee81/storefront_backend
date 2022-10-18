@@ -9,5 +9,5 @@ CREATE TABLE users (
     city VARCHAR(60),
     zip INTEGER,
     state VARCHAR(60),
-    card INTEGER ,
+    card INTEGER
 )

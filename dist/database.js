@@ -26,5 +26,6 @@ if (ENV === 'dev') {
         password: POSTGRES_PASSWORD
     });
 }
+console.log(ENV);
 // @ts-ignore
 exports.default = Client;
