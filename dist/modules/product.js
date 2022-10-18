@@ -9,8 +9,8 @@ class ProductStore {
     async create(p) {
         try {
             const conn = await database_1.default.connect();
-            const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
-            const result = await conn.query(sql, [p.name, p.price, p.category]);
+            const sql = 'INSERT INTO products (name, price, category, description, url) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+            const result = await conn.query(sql, [p.name, p.price, p.category, p.description, p.url]);
             const product = result.rows[0];
             conn.release();
             return product;

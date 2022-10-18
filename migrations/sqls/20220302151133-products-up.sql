@@ -5,6 +5,6 @@ CREATE TABLE products(
     price INTEGER,
     category VARCHAR(80),
     url VARCHAR(1000),
-    description VARCHAR(80),
+    description VARCHAR(80)
 )
 

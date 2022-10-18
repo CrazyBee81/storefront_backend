@@ -1,4 +1,4 @@
-    import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import {Pool} from 'pg';
 
 dotenv.config()
@@ -34,8 +34,6 @@ if (ENV === 'dev') {
         password: POSTGRES_PASSWORD
     })
 }
-
-console.log(ENV)
 
 // @ts-ignore
 export default Client

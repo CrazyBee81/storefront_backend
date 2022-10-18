@@ -14,6 +14,12 @@ export type User = {
     creditcard: number
 }
 
+export type SignIn = {
+    firstname: string,
+    lastname: string,
+    password: string
+}
+
 export class UserStore {
     async create(u: User): Promise<User> {
         try {
@@ -28,7 +34,7 @@ export class UserStore {
                 u.password + pepper,
                 parseInt(saltRounds)
             );
-
+            console.log(hash)
             const result = await conn.query(sql, [u.firstname, u.lastname, hash, u.mail, u.address, u.city, u.zipCode, u.state, u.creditcard]);
 
             const user: User = result.rows[0]
@@ -54,6 +60,33 @@ export class UserStore {
             throw Error('could not get users')
         }
     }
+    async authenticate(s: SignIn): Promise<User> {
+        try {
+            // hashing password
+            const pepper: string = process.env.BCRYPT_PASSWORD as string
+            const saltRounds: string = process.env.SALT_ROUNDS as string
+
+            const hash = bcrypt.hashSync(
+                s.password + pepper,
+                parseInt(saltRounds)
+            );
+
+            const conn = await Client.connect();
+            const sql = 'SELECT * FROM users WHERE firstname = ($1) AND lastname = ($2) AND password = ($3)'
+
+            const result = await conn.query(sql, [s.firstname, s.lastname, hash]);
+            const user: User = result.rows[0]
+
+            conn.release()
+
+            return user
+
+        } catch (err) {
+            throw new Error(`could not get user ${s.firstname} ${s.lastname}. Error: ${err}`);
+        }
+
+    }
+
     async show(id: string): Promise<User> {
         try {
             const conn = await Client.connect();

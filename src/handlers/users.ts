@@ -1,5 +1,5 @@
 import express, {Request, Response} from "express";
-import {User, UserStore} from "../modules/user";
+import {User,SignIn, UserStore} from "../modules/user";
 import jwt, {Secret} from 'jsonwebtoken';
 
 const store = new UserStore;
@@ -18,8 +18,14 @@ const create = async (req: Request, res: Response): Promise<void> => {
             creditcard: req.body.creditcard,
         }
 
-        const newUser: User = await store.create(user);
-        const token: string = jwt.sign(newUser, process.env.TOKEN_SECRET as Secret)
+        const signIn : SignIn = {
+            firstname: req.body.firstName,
+            lastname:  req.body.lastName,
+            password: req.body.lastName
+        }
+
+        await store.create(user);
+        const token: string = jwt.sign(signIn, process.env.TOKEN_SECRET as Secret)
 
         res.json(token);
     } catch (err) {
@@ -47,6 +53,25 @@ const index = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
+const authenticate = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const signIn : SignIn = {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            password: req.body.password
+        }
+
+        const u = await store.authenticate(signIn)
+        // @ts-ignore
+        var token = jwt.sign({ User: u }, process.env.TOKEN_SECRET);
+        res.json(token)
+    } catch (e) {
+        res.status(401)
+        res.json(`Access denied, invalid token. Error: ${e}`)
+        return
+    }
+}
+
 const show = async (req: Request, res: Response): Promise<void> => {
     try {
         const auth: string = req.headers.authorization as string;
@@ -69,6 +94,7 @@ const show = async (req: Request, res: Response): Promise<void> => {
 const userRoutes = (app: express.Application) => {
     app.get('/users', index);
     app.get('/user/:user_id', show);
+    app.post('/user/auth', authenticate);
     app.post('/users', create);
 }
 

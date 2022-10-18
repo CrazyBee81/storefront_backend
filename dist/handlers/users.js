@@ -19,8 +19,13 @@ const create = async (req, res) => {
             state: req.body.state,
             creditcard: req.body.creditcard,
         };
-        const newUser = await store.create(user);
-        const token = jsonwebtoken_1.default.sign(newUser, process.env.TOKEN_SECRET);
+        const signIn = {
+            firstname: req.body.firstName,
+            lastname: req.body.lastName,
+            password: req.body.lastName
+        };
+        await store.create(user);
+        const token = jsonwebtoken_1.default.sign(signIn, process.env.TOKEN_SECRET);
         res.json(token);
     }
     catch (err) {
@@ -46,6 +51,24 @@ const index = async (req, res) => {
         res.status(500);
     }
 };
+const authenticate = async (req, res) => {
+    try {
+        const signIn = {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            password: req.body.password
+        };
+        const u = await store.authenticate(signIn);
+        // @ts-ignore
+        var token = jsonwebtoken_1.default.sign({ User: u }, process.env.TOKEN_SECRET);
+        res.json(token);
+    }
+    catch (e) {
+        res.status(401);
+        res.json(`Access denied, invalid token. Error: ${e}`);
+        return;
+    }
+};
 const show = async (req, res) => {
     try {
         const auth = req.headers.authorization;
@@ -68,6 +91,7 @@ const show = async (req, res) => {
 const userRoutes = (app) => {
     app.get('/users', index);
     app.get('/user/:user_id', show);
+    app.post('/user/auth', authenticate);
     app.post('/users', create);
 };
 exports.default = userRoutes;
