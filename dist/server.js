@@ -5,12 +5,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
+// @ts-ignore
+const cors_1 = __importDefault(require("cors"));
 const users_1 = __importDefault(require("./handlers/users"));
 const products_1 = __importDefault(require("./handlers/products"));
 const orders_1 = __importDefault(require("./handlers/orders"));
 const dashboard_1 = __importDefault(require("./handlers/dashboard"));
 const app = (0, express_1.default)();
 const address = "0.0.0.0:3000";
+const corsOptions = {
+    origin: 'http://localhost:4200',
+    optionsSuccessStatus: 200
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use(body_parser_1.default.json());
 app.get('/', function (req, res) {
     res.send('Hello Wörld');
