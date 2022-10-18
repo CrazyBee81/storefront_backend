@@ -15,8 +15,9 @@ class UserStore {
             const pepper = process.env.BCRYPT_PASSWORD;
             const saltRounds = process.env.SALT_ROUNDS;
             const hash = bcrypt_1.default.hashSync(u.password + pepper, parseInt(saltRounds));
-            console.log(hash);
+            console.log(u);
             const result = await conn.query(sql, [u.firstname, u.lastname, hash, u.mail, u.address, u.city, u.zipCode, u.state, u.creditcard]);
+            console.log(result.rows[0]);
             const user = result.rows[0];
             conn.release();
             return user;

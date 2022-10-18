@@ -34,9 +34,9 @@ export class UserStore {
                 u.password + pepper,
                 parseInt(saltRounds)
             );
-            console.log(hash)
+            console.log(u)
             const result = await conn.query(sql, [u.firstname, u.lastname, hash, u.mail, u.address, u.city, u.zipCode, u.state, u.creditcard]);
-
+            console.log(result.rows[0])
             const user: User = result.rows[0]
 
             conn.release()

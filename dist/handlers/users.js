@@ -9,8 +9,8 @@ const store = new user_1.UserStore;
 const create = async (req, res) => {
     try {
         const user = {
-            firstname: req.body.firstName,
-            lastname: req.body.lastName,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
             mail: req.body.mail,
             password: req.body.password,
             address: req.body.address,

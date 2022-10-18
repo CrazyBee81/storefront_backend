@@ -7,8 +7,8 @@ const store = new UserStore;
 const create = async (req: Request, res: Response): Promise<void> => {
     try {
         const user: User = {
-            firstname: req.body.firstName,
-            lastname:  req.body.lastName,
+            firstname: req.body.firstname,
+            lastname:  req.body.lastname,
             mail: req.body.mail,
             password:  req.body.password,
             address: req.body.address,
