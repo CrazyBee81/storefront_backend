@@ -20,12 +20,13 @@ const create = async (req, res) => {
             creditcard: req.body.creditcard,
         };
         const signIn = {
-            firstname: req.body.firstName,
-            lastname: req.body.lastName,
-            password: req.body.lastName
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            password: req.body.password
         };
         await store.create(user);
         const token = jsonwebtoken_1.default.sign(signIn, process.env.TOKEN_SECRET);
+        console.log(token);
         res.json(token);
     }
     catch (err) {

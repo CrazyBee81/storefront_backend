@@ -24,7 +24,7 @@ export class UserStore {
     async create(u: User): Promise<User> {
         try {
             const conn = await Client.connect();
-            const sql = 'INSERT INTO users (firstname,lastname,password, mail, address,city, zip, state, card) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *'
+            const sql = 'INSERT INTO users (firstname,lastname,password, mail, address,city, zipCode, state, creditcard) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *'
 
             // hashing password
             const pepper: string = process.env.BCRYPT_PASSWORD as string
@@ -34,9 +34,9 @@ export class UserStore {
                 u.password + pepper,
                 parseInt(saltRounds)
             );
-            console.log(u)
+
             const result = await conn.query(sql, [u.firstname, u.lastname, hash, u.mail, u.address, u.city, u.zipCode, u.state, u.creditcard]);
-            console.log(result.rows[0])
+
             const user: User = result.rows[0]
 
             conn.release()

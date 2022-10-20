@@ -19,14 +19,14 @@ const create = async (req: Request, res: Response): Promise<void> => {
         }
 
         const signIn : SignIn = {
-            firstname: req.body.firstName,
-            lastname:  req.body.lastName,
-            password: req.body.lastName
+            firstname: req.body.firstname,
+            lastname:  req.body.lastname,
+            password: req.body.password
         }
 
         await store.create(user);
         const token: string = jwt.sign(signIn, process.env.TOKEN_SECRET as Secret)
-
+        console.log(token)
         res.json(token);
     } catch (err) {
         res.json(`couldn´t create user. Error: ${err}`);
