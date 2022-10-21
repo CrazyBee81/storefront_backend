@@ -8,7 +8,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const store = new user_1.UserStore;
 const create = async (req, res) => {
     try {
-        const user = {
+        let user = {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             mail: req.body.mail,
@@ -19,14 +19,8 @@ const create = async (req, res) => {
             state: req.body.state,
             creditcard: req.body.creditcard,
         };
-        const signIn = {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            password: req.body.password
-        };
-        await store.create(user);
-        const token = jsonwebtoken_1.default.sign(signIn, process.env.TOKEN_SECRET);
-        console.log(token);
+        user = await store.create(user);
+        const token = jsonwebtoken_1.default.sign(user, process.env.TOKEN_SECRET);
         res.json(token);
     }
     catch (err) {
@@ -54,12 +48,18 @@ const index = async (req, res) => {
 };
 const authenticate = async (req, res) => {
     try {
-        const signIn = {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            password: req.body.password
+        const user = {
+            firstname: "",
+            lastname: "",
+            password: req.body.password,
+            mail: req.body.mail,
+            address: "",
+            city: "",
+            zipCode: 0,
+            state: "",
+            creditcard: 0,
         };
-        const u = await store.authenticate(signIn);
+        const u = await store.authenticate(user);
         // @ts-ignore
         var token = jsonwebtoken_1.default.sign({ User: u }, process.env.TOKEN_SECRET);
         res.json(token);

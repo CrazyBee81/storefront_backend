@@ -17,6 +17,7 @@ class UserStore {
             const hash = bcrypt_1.default.hashSync(u.password + pepper, parseInt(saltRounds));
             const result = await conn.query(sql, [u.firstname, u.lastname, hash, u.mail, u.address, u.city, u.zipCode, u.state, u.creditcard]);
             const user = result.rows[0];
+            console.log(user);
             conn.release();
             return user;
         }
@@ -37,21 +38,24 @@ class UserStore {
             throw Error('could not get users');
         }
     }
-    async authenticate(s) {
+    async authenticate(u) {
         try {
             // hashing password
             const pepper = process.env.BCRYPT_PASSWORD;
-            const saltRounds = process.env.SALT_ROUNDS;
-            const hash = bcrypt_1.default.hashSync(s.password + pepper, parseInt(saltRounds));
             const conn = await database_1.default.connect();
-            const sql = 'SELECT * FROM users WHERE firstname = ($1) AND lastname = ($2) AND password = ($3)';
-            const result = await conn.query(sql, [s.firstname, s.lastname, hash]);
-            const user = result.rows[0];
+            const sql = 'SELECT * FROM users WHERE mail = ($1)';
+            const result = await conn.query(sql, [u.mail]);
+            if (result.rows.length) {
+                const user = result.rows[0];
+                if (bcrypt_1.default.compareSync(u.password + pepper, user.password)) {
+                    return user;
+                }
+            }
+            return null;
             conn.release();
-            return user;
         }
         catch (err) {
-            throw new Error(`could not get user ${s.firstname} ${s.lastname}. Error: ${err}`);
+            throw new Error(`could not get user with ${u.mail}. Error: ${err}`);
         }
     }
     async show(id) {

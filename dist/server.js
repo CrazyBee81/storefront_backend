@@ -12,7 +12,7 @@ const products_1 = __importDefault(require("./handlers/products"));
 const orders_1 = __importDefault(require("./handlers/orders"));
 const dashboard_1 = __importDefault(require("./handlers/dashboard"));
 const app = (0, express_1.default)();
-const address = "0.0.0.0:3001";
+const address = "0.0.0.0:3000";
 const corsOptions = {
     origin: 'http://localhost:4200',
     optionsSuccessStatus: 200
@@ -22,7 +22,7 @@ app.use(body_parser_1.default.json());
 app.get('/', function (req, res) {
     res.send('Hello Wörld');
 });
-app.listen(3001, function () {
+app.listen(3000, function () {
     console.log(`starting app on: ${address}`);
 });
 (0, users_1.default)(app);

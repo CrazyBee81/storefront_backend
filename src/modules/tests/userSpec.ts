@@ -31,17 +31,28 @@ describe("User Model", () => {
             id: result.id,
             firstname: "Volodymyr",
             lastname: 'Zelenskyy',
-            password: result.password
+            password: result.password,
+            mail: 'president@ukrain.uk',
+            address: 'main street 123',
+            city: 'Kiew',
+            zipCode: 12345,
+            state: 'ukrain',
+            creditcard: 1234567891
         });
     });
     it('show method should return the correct user', async () => {
         const result = await store.show("1");
 
         expect(result).toEqual({//@ts-ignore
-            id: 1,
             firstname: "Volodymyr",
             lastname: 'Zelenskyy',
-            password: result.password
+            password: result.password,
+            mail: 'president@ukrain.uk',
+            address: 'main street 123',
+            city: 'Kiew',
+            zipCode: 12345,
+            state: 'ukrain',
+            creditcard: 1234567891
 
         });
     });

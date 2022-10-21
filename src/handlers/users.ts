@@ -1,12 +1,12 @@
 import express, {Request, Response} from "express";
-import {User,SignIn, UserStore} from "../modules/user";
+import {User, UserStore} from "../modules/user";
 import jwt, {Secret} from 'jsonwebtoken';
 
 const store = new UserStore;
 
 const create = async (req: Request, res: Response): Promise<void> => {
     try {
-        const user: User = {
+        let user: User = {
             firstname: req.body.firstname,
             lastname:  req.body.lastname,
             mail: req.body.mail,
@@ -18,15 +18,10 @@ const create = async (req: Request, res: Response): Promise<void> => {
             creditcard: req.body.creditcard,
         }
 
-        const signIn : SignIn = {
-            firstname: req.body.firstname,
-            lastname:  req.body.lastname,
-            password: req.body.password
-        }
+        user = await store.create(user);
 
-        await store.create(user);
-        const token: string = jwt.sign(signIn, process.env.TOKEN_SECRET as Secret)
-        console.log(token)
+        const token: string = jwt.sign(user, process.env.TOKEN_SECRET as Secret)
+
         res.json(token);
     } catch (err) {
         res.json(`couldn´t create user. Error: ${err}`);
@@ -55,13 +50,21 @@ const index = async (req: Request, res: Response): Promise<void> => {
 
 const authenticate = async (req: Request, res: Response): Promise<void> => {
     try {
-        const signIn : SignIn = {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            password: req.body.password
+        const user: User = {
+            firstname: "",
+            lastname: "",
+            password: req.body.password,
+            mail: req.body.mail,
+            address: "",
+            city: "",
+            zipCode: 0,
+            state: "",
+            creditcard: 0,
         }
 
-        const u = await store.authenticate(signIn)
+
+        const u = await store.authenticate(user)
+
         // @ts-ignore
         var token = jwt.sign({ User: u }, process.env.TOKEN_SECRET);
         res.json(token)

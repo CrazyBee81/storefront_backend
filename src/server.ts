@@ -8,7 +8,7 @@ import orderRoutes from "./handlers/orders";
 import dashboardRoutes from "./handlers/dashboard";
 
 const app: express.Application = express()
-const address = "0.0.0.0:3001"
+const address = "0.0.0.0:3000"
 
 const corsOptions = {
     origin: 'http://localhost:4200',
@@ -22,7 +22,7 @@ app.get('/', function (req: Request, res: Response) {
     res.send('Hello Wörld')
 })
 
-app.listen(3001, function () {
+app.listen(3000, function () {
     console.log(`starting app on: ${address}`)
 })
 
