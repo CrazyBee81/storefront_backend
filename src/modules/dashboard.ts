@@ -2,15 +2,15 @@ import Client from "../database";
 import {Order} from "./order"
 
 export class DashboardStore {
-    async showCurrent(user_id:string): Promise<Order> {
+    async showCurrent(user_id:string): Promise<Order[]> {
         const conn = await Client.connect();
-        const sql = 'SELECT * FROM orders WHERE user_id=($1) ORDER BY id DESC';
+        const sql = 'SELECT * FROM orders WHERE user_id=($1) ORDER BY id DESC LIMIT 5';
         const result = await conn.query(sql, [user_id]);
-        const order:Order = result.rows[0]
-        console.log(result.rows[1])
+        const orders:Order[] = result.rows
+
         conn.release()
 
-        return order
+        return orders
     }
     async showCompleted(user_id:string): Promise<Order[]> {
         const conn = await Client.connect();

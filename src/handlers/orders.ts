@@ -111,8 +111,8 @@ const destroy = async (req: Request, res: Response) => {
 
 const orderRoutes = (app: express.Application) => {
     app.get('/orders', index)
-    app.get('/order/:orderId/products', getProducts)
     app.post('/user/:userID/orders', create)
+    app.get('/order/:orderId/products', getProducts)
     app.post('/order/:id/products', addProducts)
     app.delete('/orders', destroy)
 }

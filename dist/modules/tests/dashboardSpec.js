@@ -22,12 +22,4 @@ describe("Dashboard Model", () => {
     it('should have an productsByCategory method', () => {
         expect(store.productsByCategory).toBeDefined();
     });
-    it('showCurrent should show current order from user', async () => {
-        const result = await store.showCurrent("1");
-        expect(result).toEqual({
-            id: result.id,
-            user_id: result.user_id,
-            status: 'open'
-        });
-    });
 });

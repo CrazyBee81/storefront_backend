@@ -8,12 +8,11 @@ const database_1 = __importDefault(require("../database"));
 class DashboardStore {
     async showCurrent(user_id) {
         const conn = await database_1.default.connect();
-        const sql = 'SELECT * FROM orders WHERE user_id=($1) ORDER BY id DESC';
+        const sql = 'SELECT * FROM orders WHERE user_id=($1) ORDER BY id DESC LIMIT 5';
         const result = await conn.query(sql, [user_id]);
-        const order = result.rows[0];
-        console.log(result.rows[1]);
+        const orders = result.rows;
         conn.release();
-        return order;
+        return orders;
     }
     async showCompleted(user_id) {
         const conn = await database_1.default.connect();
