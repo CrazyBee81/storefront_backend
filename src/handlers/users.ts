@@ -62,7 +62,6 @@ const authenticate = async (req: Request, res: Response): Promise<void> => {
             creditcard: 0,
         }
 
-
         const u = await store.authenticate(user)
 
         // @ts-ignore

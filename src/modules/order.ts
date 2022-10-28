@@ -45,4 +45,14 @@ export class OrderStore {
 
         return newOrder
     }
+    async getProducts(order_id:string): Promise<Order[]> {
+        const conn = await Client.connect();
+        const sql = 'SELECT * FROM orders_products INNER JOIN orders ON orders_products.order_id = orders.id  WHERE orders.id=($1)';
+        const result = await conn.query(sql, [order_id]);
+
+        conn.release()
+
+        return result.rows
+
+    }
 }

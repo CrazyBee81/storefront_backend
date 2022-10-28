@@ -37,5 +37,12 @@ class OrderStore {
         conn.release();
         return newOrder;
     }
+    async getProducts(order_id) {
+        const conn = await database_1.default.connect();
+        const sql = 'SELECT * FROM orders_products INNER JOIN orders ON orders_products.order_id = orders.id  WHERE orders.id=($1)';
+        const result = await conn.query(sql, [order_id]);
+        conn.release();
+        return result.rows;
+    }
 }
 exports.OrderStore = OrderStore;

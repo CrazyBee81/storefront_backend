@@ -6,19 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashboardStore = void 0;
 const database_1 = __importDefault(require("../database"));
 class DashboardStore {
-    async ordersByUser() {
-        const conn = await database_1.default.connect();
-        const sql = 'SELECT firstname, lastname, users.id as user_id,  orders.id as order_id FROM users INNER JOIN orders on orders.user_id = users.id ORDER BY users.id;';
-        const result = await conn.query(sql);
-        conn.release();
-        return result.rows;
-    }
     async showCurrent(user_id) {
         const conn = await database_1.default.connect();
         const sql = 'SELECT * FROM orders WHERE user_id=($1) ORDER BY id DESC';
         const result = await conn.query(sql, [user_id]);
         const order = result.rows[0];
-        result.rows;
+        console.log(result.rows[1]);
         conn.release();
         return order;
     }

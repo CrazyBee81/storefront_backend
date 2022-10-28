@@ -64,6 +64,27 @@ const addProducts = async (req, res) => {
         res.json(err);
     }
 };
+const getProducts = async (req, res) => {
+    try {
+        const authorizationHeader = req.headers.authorization;
+        const token = authorizationHeader.split(' ')[1];
+        // @ts-ignore
+        jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
+    }
+    catch (err) {
+        res.status(401);
+        res.json('Access denied, invalid token');
+        return;
+    }
+    try {
+        const orders = await store.getProducts(req.params.orderId);
+        res.json(orders);
+    }
+    catch (error) {
+        res.status(400);
+        res.json({ error });
+    }
+};
 const destroy = async (req, res) => {
     try {
         const authorizationHeader = req.headers.authorization;
@@ -87,6 +108,7 @@ const destroy = async (req, res) => {
 };
 const orderRoutes = (app) => {
     app.get('/orders', index);
+    app.get('/order/:orderId/products', getProducts);
     app.post('/user/:userID/orders', create);
     app.post('/order/:id/products', addProducts);
     app.delete('/orders', destroy);
