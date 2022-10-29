@@ -47,7 +47,7 @@ export class OrderStore {
     }
     async getProducts(order_id:string): Promise<Order[]> {
         const conn = await Client.connect();
-        const sql = 'SELECT * FROM orders_products INNER JOIN orders ON orders_products.order_id = orders.id  WHERE orders.id=($1)';
+        const sql = 'SELECT * FROM orders_products INNER JOIN orders ON orders_products.order_id = orders.id INNER JOIN products ON orders_products.product_id = products.id WHERE orders.id=($1)';
         const result = await conn.query(sql, [order_id]);
 
         conn.release()
