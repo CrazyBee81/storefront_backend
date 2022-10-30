@@ -6,12 +6,16 @@ describe("Order Model", () => {
     it('create method should add a order', async () => {
         const result = await store.create({
             user_id: '1',
-            status: 'closed'
+            status: 'closed',
+            total: 100,
+            shipping: 10
         });
         expect(result).toEqual({
             id: result.id,
             user_id: '1',
-            status: 'closed'
+            status: 'closed',
+            total: 100,
+            shipping: 10
         });
     });
 });

@@ -29,8 +29,11 @@ const create = async (req, res) => {
     try {
         const order = {
             status: req.body.status,
-            user_id: req.params.userID
+            user_id: req.params.userID,
+            total: req.body.total,
+            shipping: req.body.shipping
         };
+        console.log(order);
         const newOrder = await store.create(order);
         res.json(newOrder);
     }

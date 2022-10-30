@@ -29,8 +29,11 @@ const create = async (req: Request, res: Response): Promise<void> => {
     try {
         const order: Order = {
             status: req.body.status as string,
-            user_id: req.params.userID
+            user_id: req.params.userID,
+            total: req.body.total as number,
+            shipping: req.body.shipping as number
         }
+        console.log(order)
         const newOrder: Order = await store.create(order)
         res.json(newOrder)
     } catch (err) {

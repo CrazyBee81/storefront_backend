@@ -7,7 +7,9 @@ const OrderStoreStore = new OrderStore()
 describe("Dashboard Model", () => {
     var test = OrderStoreStore.create({
         user_id: '1',
-        status: 'open'
+        status: 'open',
+        total: 100,
+        shipping: 10
     })
     console.log(test)
     it('should have an showCurrend method', () => {
