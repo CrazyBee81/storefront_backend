@@ -6,7 +6,7 @@ This repo contains the modified start code for the storefront backend project. I
 To get started clone the project and execute `npm i ` in your CLI to install all dependencies necessary to run the project. Now you can start to setup a database by following these steps:
 startup a PSQL terminal
 
-* Create a user with by typing the command `CREATE USER storefront_admin WITH PASSWORD storefront_password`
+* Create a user by typing the command `CREATE USER storefront_admin WITH PASSWORD storefront_password`
 * Create a live database and one for testing with `CREATE DATABASE storefront_backend;` and `CREATE DATABASE storefront_backend_test;`
 * Grant all privileges to the user in both databases with `GRANT ALL PRIVILEGES ON DATABASE storefront_backend;` and `GRANT ALL PRIVILEGES ON DATABASE storefront_backend_test;`
 

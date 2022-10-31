@@ -34,6 +34,13 @@ These are the notes from a meeting with the frontend developer that describe wha
 - firstName (VARCHAR(60))
 - lastName (VARCHAR(60))
 - password (VARCHAR(100))
+- mail VARCHAR(60)
+- password VARCHAR(100)
+- address VARCHAR(60)
+- city VARCHAR(60)
+- zipCode INTEGER
+- state VARCHAR(60)
+- creditcard INTEGER
 
 **Referenced by**: TABLE "orders" CONSTRAINT "orders_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
 
@@ -41,6 +48,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 - id (SERIAL PRIMARY KEY)
 - user_id (bigint REFERENCES users (id))
 - status of order (VARCHAR(8))
+- total INTEGER 
+- shipping INTEGER
   
 **Referenced by**:TABLE "orders_products" CONSTRAINT "orders_products_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(id)
 
