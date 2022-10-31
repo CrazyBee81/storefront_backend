@@ -5,20 +5,23 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 'products' [GET] done
-- Show 'products/:product_id' [GET] done
-- Create [token required] 'products/' [POST] done
-- [OPTIONAL] Top 5 most popular products 'most_popular_products' [GET]
-- [OPTIONAL] Products by category (args: product category) 'products_by_category' [GET]
+- Index 'products' [GET] 
+- Show 'products/:product_id' [GET] 
+- Create [token required] 'products/' [POST] 
+- [DASHBOARD] Top 5 most popular products 'most_popular_products' [GET]
+- [DASHBOARD] Products by category (args: product category) 'products_by_category' [GET]
 
 #### Users
-- Index [token required] 'users' [GET] done
-- Show [token required] 'users/:user_id' [GET] done
-- Create N[token required] 'users' [POST] done
+- Index [token required] 'users' [GET] 
+- Show [token required] 'users/:user_id' [GET] 
+- Create N[token required] 'users' [POST] 
 
 #### Orders
-- Current Order by user (args: user id)[token required]  '/users/:userID/orders' [GET] done
-- [OPTIONAL] Completed Orders by user (args: user id)[token required] '/users/:userID/orders_completed' [GET] done
+- Create new order (args: status, total, shipping)[token required] '/user/:userID/orders' [POST]
+- Current Order by user (args: user id)[token required]  '/users/:userID/orders' [GET] 
+- [DASHBOARD] Completed Orders by user (args: user id)[token required] '/users/:userID/orders_completed' [GET]
+- [DASHBOARD] Add Products to Order (args: quantity and product_id)[token required] '/order/:id/products' [POST] 
+- [DASHBOARD] Get Products from Order [token required] '/order/:id/products' [GET]
 
 ## Data Shapes and Database Scheme
 #### Product
